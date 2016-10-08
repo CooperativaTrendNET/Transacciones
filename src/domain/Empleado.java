@@ -7,11 +7,11 @@ package domain;
 public class Empleado {
     private String nombre;
     private String apellidos;
-    private char[] cedula;
+    private String cedula;
     private float fondo;
-    private char[] contrasenia;
+    private String contrasenia;
 
-    public Empleado(String nombre, String apellidos, char[] cedula, float fondo, char[] contrasenia) {
+    public Empleado(String nombre, String apellidos, String cedula, float fondo, String contrasenia) {
         this.nombre = nombre;
         this.apellidos = apellidos;
         this.cedula = cedula;
@@ -22,9 +22,9 @@ public class Empleado {
     public Empleado() {
         this.nombre = "";
         this.apellidos = "";
-        this.cedula = new char[10];
+        this.cedula = "";
         this.fondo = 0;
-        this.contrasenia = new char[30];
+        this.contrasenia = "";
     }
 
     public String getNombre() {
@@ -43,11 +43,11 @@ public class Empleado {
         this.apellidos = apellidos;
     }
 
-    public char[] getCedula() {
+    public String getCedula() {
         return cedula;
     }
 
-    public void setCedula(char[] cedula) {
+    public void setCedula(String cedula) {
         this.cedula = cedula;
     }
 
@@ -59,11 +59,11 @@ public class Empleado {
         this.fondo = fondo;
     }
 
-    public char[] getContrasenia() {
+    public String getContrasenia() {
         return contrasenia;
     }
 
-    public void setContrasenia(char[] contrasenia) {
+    public void setContrasenia(String contrasenia) {
         this.contrasenia = contrasenia;
     }
 

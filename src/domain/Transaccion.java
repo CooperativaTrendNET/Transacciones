@@ -8,9 +8,9 @@ public class Transaccion {
     private int idTransaccion;
     private String tipo;
     private float monto;
-    private char[] cedulaDestino;
+    private String cedulaDestino;
 
-    public Transaccion(int idTransaccion, String tipo, float monto, char[] cedulaDestino) {
+    public Transaccion(int idTransaccion, String tipo, float monto, String cedulaDestino) {
         this.idTransaccion = idTransaccion;
         this.tipo = tipo;
         this.monto = monto;
@@ -21,7 +21,7 @@ public class Transaccion {
         this.idTransaccion = 0;
         this.tipo = "";
         this.monto = 0;
-        this.cedulaDestino = new char[10];
+        this.cedulaDestino = "";
     }
 
     public int getIdTransaccion() {
@@ -48,11 +48,11 @@ public class Transaccion {
         this.monto = monto;
     }
 
-    public char[] getCedulaDestino() {
+    public String getCedulaDestino() {
         return cedulaDestino;
     }
 
-    public void setCedulaDestino(char[] cedulaDestino) {
+    public void setCedulaDestino(String cedulaDestino) {
         this.cedulaDestino = cedulaDestino;
     }
 

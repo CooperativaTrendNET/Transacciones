@@ -8,20 +8,26 @@ public class Transaccion {
     private int idTransaccion;
     private String tipo;
     private float monto;
-    private String cedulaDestino;
+    private String cuentaOrigen;
+    private String cuentaDestino;
+    private String fechaTransaccion;
 
-    public Transaccion(int idTransaccion, String tipo, float monto, String cedulaDestino) {
-        this.idTransaccion = idTransaccion;
+    public Transaccion(String tipo, float monto, String cuentaOrigen, String cuentaDestino) {
+        this.idTransaccion = 0;
         this.tipo = tipo;
         this.monto = monto;
-        this.cedulaDestino = cedulaDestino;
+        this.cuentaOrigen = cuentaOrigen;
+        this.cuentaDestino = cuentaDestino;
+        this.fechaTransaccion = "";
     }
 
     public Transaccion() {
         this.idTransaccion = 0;
         this.tipo = "";
         this.monto = 0;
-        this.cedulaDestino = "";
+        this.cuentaOrigen = "";
+        this.cuentaDestino = "";
+        this.fechaTransaccion = "";
     }
 
     public int getIdTransaccion() {
@@ -48,16 +54,32 @@ public class Transaccion {
         this.monto = monto;
     }
 
-    public String getCedulaDestino() {
-        return cedulaDestino;
+    public String getCuentaOrigen() {
+        return cuentaOrigen;
     }
 
-    public void setCedulaDestino(String cedulaDestino) {
-        this.cedulaDestino = cedulaDestino;
+    public void setCuentaOrigen(String cuentaOrigen) {
+        this.cuentaOrigen = cuentaOrigen;
+    }
+
+    public String getCuentaDestino() {
+        return cuentaDestino;
+    }
+
+    public void setCuentaDestino(String cuentaDestino) {
+        this.cuentaDestino = cuentaDestino;
+    }
+
+    public String getFechaTransaccion() {
+        return fechaTransaccion;
+    }
+
+    public void setFechaTransaccion(String fechaTransaccion) {
+        this.fechaTransaccion = fechaTransaccion;
     }
 
     @Override
     public String toString() {
-        return "Transaccion{" + "idTransaccion=" + idTransaccion + ", tipo=" + tipo + ", monto=" + monto + ", cedulaDestino=" + cedulaDestino + '}';
+        return "Transaccion{" + "idTransaccion=" + idTransaccion + ", tipo=" + tipo + ", monto=" + monto + ", cuentaOrigen=" + cuentaOrigen + ", cuentaDestino=" + cuentaDestino + ", fechaTransaccion=" + fechaTransaccion + '}';
     }
 }

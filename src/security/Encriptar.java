@@ -31,13 +31,13 @@ public class Encriptar {
         return hash;
     }
 
-    public static String password(char[] pass, String algorithm) {
+    public static String password(String message, String algorithm) {
 
-        String message = "";
-        
-        for (int i = 0; i < pass.length; i++) {
-            message += pass[i];
-        }
+//        String message = "";
+//        
+//        for (int i = 0; i < pass.length; i++) {
+//            message += pass[i];
+//        }
         
         byte[] digest = null;//resumen
         byte[] buffer = message.getBytes();

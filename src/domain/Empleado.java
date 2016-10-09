@@ -5,26 +5,37 @@ package domain;
  * @author adrian
  */
 public class Empleado {
+    private String numeroCuenta;
     private String nombre;
     private String apellidos;
     private String cedula;
     private float fondo;
     private String contrasenia;
 
-    public Empleado(String nombre, String apellidos, String cedula, float fondo, String contrasenia) {
+    public Empleado(String numeroCuenta, String nombre, String apellidos, String cedula) {
+        this.numeroCuenta = numeroCuenta;
         this.nombre = nombre;
         this.apellidos = apellidos;
         this.cedula = cedula;
-        this.fondo = fondo;
-        this.contrasenia = contrasenia;
+        this.fondo = 0;
+        this.contrasenia = "";
     }
 
     public Empleado() {
-        this.nombre = "";
-        this.apellidos = "";
-        this.cedula = "";
+        this.numeroCuenta = numeroCuenta;
+        this.nombre = nombre;
+        this.apellidos = apellidos;
+        this.cedula = cedula;
         this.fondo = 0;
         this.contrasenia = "";
+    }
+
+    public String getNumeroCuenta() {
+        return numeroCuenta;
+    }
+
+    public void setNumeroCuenta(String numeroCuenta) {
+        this.numeroCuenta = numeroCuenta;
     }
 
     public String getNombre() {
@@ -69,7 +80,7 @@ public class Empleado {
 
     @Override
     public String toString() {
-        return "Empleado{" + "nombre=" + nombre + ", apellidos=" + apellidos + ", cedula=" + cedula + ", fondo=" + fondo + ", contrasenia=" + contrasenia + '}';
+        return "Empleado{" + "numeroCuenta=" + numeroCuenta + ", nombre=" + nombre + ", apellidos=" + apellidos + ", cedula=" + cedula + ", fondo=" + fondo + ", contrasenia=" + contrasenia + '}';
     }
     
 }

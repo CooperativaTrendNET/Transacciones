@@ -11,8 +11,8 @@ create table Transaccion(	id_transaccion int not null identity(1, 1),
 							tipo nvarchar(13) not null,
 							monto decimal(10, 3) not null,
 							cuentaOrigen char(5) not null constraint FK_Transaccion_cuentaOrigen FOREIGN KEY(cuentaOrigen) REFERENCES Empleado(numeroCuenta),
-							cuentaDestino char(5) not null constraint FK_Transaccion_cuentaDestino FOREIGN KEY(cuentaDestino) REFERENCES Empleado(numeroCuenta),
-							fechaTransaccion date null default getDate())
+							cuentaDestino char(5) null constraint FK_Transaccion_cuentaDestino FOREIGN KEY(cuentaDestino) REFERENCES Empleado(numeroCuenta),
+							fechaTransaccion datetime null default getDate())
 
 insert Empleado values('00000', 'No suministrado', 'No suministrado', '0000000000', 0.0, '37a6259cc0c1dae299a7866489dff0bd')
 insert Empleado values('00001', 'Diego Andres', 'Roman Navarro', '0101340937', 100000.000, 'c673c7c6c390e3503108e4eb7f9f68d1')
@@ -36,4 +36,5 @@ insert Empleado values('10010', 'Joaquin Alejandro', 'Miranda Blanco', '07094906
 insert Empleado values('10011', 'Sara Vanessa', 'Gonzalez Martinez', '0307890254', 100000.000, '5c0521c55c9f33198115510656e41d75')
 insert Empleado values('10100', 'Nicolas Alexander', 'Garcia Perez', '0405430658', 100000.000, '595a3b56f7fe13886e5d22b0c0486cdb')
 
-select * from Empleado
+select * from Transaccion
+select DATEPART(mi, fechaTransaccion) from Transaccion --yyyy:mm:dd hh:mi:ss

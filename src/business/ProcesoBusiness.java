@@ -24,11 +24,18 @@ public class ProcesoBusiness {
     }
     
     public boolean deposito(Transaccion transaccion){
+        boolean flag = false;
+        
         try {
-            return this.procesoData.deposito(transaccion);
+            if (transaccion.getTipo()=='d') {
+                flag = this.procesoData.deposito(transaccion);
+            }else{
+                System.err.println("No es un deposito");
+            }
         } catch (SQLException ex) {
             Logger.getLogger(ProcesoBusiness.class.getName()).log(Level.SEVERE, null, ex);
+            flag = false;
         }
-        return false;
+        return flag;
     }
 }

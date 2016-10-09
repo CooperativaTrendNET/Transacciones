@@ -21,9 +21,9 @@ public class Main {
     }
 
     public Main() {
-//        Transaccion t = new Transaccion("deposito", 1000, "00010", "01101");
-//        ProcesoBusiness p = new ProcesoBusiness();
-//        p.deposito(t);
+        Transaccion t = new Transaccion('d', 1000, "00010");
+        ProcesoBusiness p = new ProcesoBusiness();
+        System.out.println("El deposito fue exitoso? "+p.deposito(t));
         
         
 //        try {

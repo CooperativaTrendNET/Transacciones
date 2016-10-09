@@ -6,13 +6,13 @@ package domain;
 public class Transaccion {
     
     private int idTransaccion;
-    private String tipo;
+    private char tipo;
     private float monto;
     private String cuentaOrigen;
     private String cuentaDestino;
     private String fechaTransaccion;
 
-    public Transaccion(String tipo, float monto, String cuentaOrigen, String cuentaDestino) {
+    public Transaccion(char tipo, float monto, String cuentaOrigen, String cuentaDestino) {
         this.idTransaccion = 0;
         this.tipo = tipo;
         this.monto = monto;
@@ -20,10 +20,19 @@ public class Transaccion {
         this.cuentaDestino = cuentaDestino;
         this.fechaTransaccion = "";
     }
-
+    
+    public Transaccion(char tipo, float monto, String cuentaOrigen){
+        this.idTransaccion = 0;
+        this.tipo = tipo;
+        this.monto = monto;
+        this.cuentaOrigen = cuentaOrigen;
+        this.cuentaDestino = cuentaOrigen;
+        this.fechaTransaccion = "";
+    }
+    
     public Transaccion() {
         this.idTransaccion = 0;
-        this.tipo = "";
+        this.tipo = '-';
         this.monto = 0;
         this.cuentaOrigen = "";
         this.cuentaDestino = "";
@@ -38,11 +47,11 @@ public class Transaccion {
         this.idTransaccion = idTransaccion;
     }
 
-    public String getTipo() {
+    public char getTipo() {
         return tipo;
     }
 
-    public void setTipo(String tipo) {
+    public void setTipo(char tipo) {
         this.tipo = tipo;
     }
 

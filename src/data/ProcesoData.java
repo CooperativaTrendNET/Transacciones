@@ -2,7 +2,12 @@ package data;
 
 import domain.Empleado;
 import domain.Transaccion;
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+
 
 public class ProcesoData {
 
@@ -16,10 +21,10 @@ public class ProcesoData {
     }
 
     public boolean deposito(Transaccion transaccion) throws SQLException {
-        boolean flag = false;
+        boolean flag = true;
         
         Statement statement = connection.createStatement();
-        statement.executeUpdate("INSERT INTO Transaccion(tipo, monto, cuentaOrigen, cuentaDestino) VALUES ('" + transaccion.getTipo() + "', '" + transaccion.getMonto() + "', '" + transaccion.getCuentaOrigen() + "', '" + transaccion.getCuentaDestino() + "')");
+        statement.executeUpdate("INSERT INTO Transaccion(tipo, monto, cuentaOrigen) VALUES ('" + transaccion.getTipo() + "', '" + transaccion.getMonto() + "', '" + transaccion.getCuentaOrigen() + "')");
         
         this.connection.close();
         statement.close();

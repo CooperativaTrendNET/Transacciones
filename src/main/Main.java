@@ -3,6 +3,7 @@ package main;
 import business.ProcesoBusiness;
 import data.ProcesoData;
 import domain.Transaccion;
+import gui.JFServidor;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -21,9 +22,29 @@ public class Main {
     }
 
     public Main() {
+<<<<<<< HEAD
         Transaccion t = new Transaccion("deposito", 5000, "00011");
         ProcesoBusiness p = new ProcesoBusiness();
         System.out.println("El deposito fue exitoso? "+p.deposito(t));
+=======
+        
+        JFServidor server = new JFServidor();
+        
+        
+//        Transaccion t = new Transaccion('d', 1000, "00010");
+//        ProcesoBusiness p = new ProcesoBusiness();
+//        System.out.println("El deposito fue exitoso? "+p.deposito(t));
+        
+        
+//        try {
+//            ProcesoData pd = new ProcesoData();
+//            System.out.println(pd.getEmpleado("00110"));
+//        } catch (SQLException ex) {
+//            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+//        } catch (ClassNotFoundException ex) {
+//            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+>>>>>>> 8ac975a4485d74b3df947e02f7d6c389dfbd33a9
     }
     
 }

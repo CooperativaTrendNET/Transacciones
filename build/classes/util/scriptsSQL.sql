@@ -10,16 +10,23 @@ create table Empleado(	numeroCuenta char(5) not null constraint PK_Empleado_nume
 						fondo decimal(10, 3) not null,
 						contrasenia nvarchar(40) not null)
 						
-create table Transaccion(	id_transaccion int not null identity(1, 1),
+create table Transaccion(	id_transaccion int not null identity(1, 1) constraint PK_Transaccion_id Primary Key,
 							tipo nvarchar(13) not null,
 							monto decimal(10, 3) not null,
 							cuentaOrigen char(5) not null constraint FK_Transaccion_cuentaOrigen FOREIGN KEY(cuentaOrigen) REFERENCES Empleado(numeroCuenta),
 							cuentaDestino char(5) null constraint FK_Transaccion_cuentaDestino FOREIGN KEY(cuentaDestino) REFERENCES Empleado(numeroCuenta),
-							fechaTransaccion datetime null default getDate())
+							fechaTransaccion datetime null default getDate(),
+							descripcion nvarchar(MAX))
 
---CREATE TRIGGER Transaccion_transferencia ON Transaccion after insert AS
---				Update Empleado set fondo = fondo-Transaccion.monto where Transaccion.cuentaOrigen=Empleado.numeroCuenta;
---				Update Empleado set fondo = fondo+Transaccion.monto where Transaccion.cuentaDestino=Empleado.numeroCuenta;
+CREATE TRIGGER Transaccion_AI_transferencia ON Transaccion after insert AS
+				Update Empleado set fondo = fondo-Inserted.monto from Inserted where Inserted.cuentaOrigen=Empleado.numeroCuenta;
+				Update Empleado set fondo = fondo+Inserted.monto from Inserted where Inserted.cuentaDestino=Empleado.numeroCuenta;
+
+CREATE TRIGGER Transaccion_AI_deposito ON Transaccion after insert AS
+				Update Empleado set fondo = fondo+Inserted.monto from Inserted where Inserted.cuentaOrigen=Empleado.numeroCuenta;
+
+CREATE TRIGGER Transaccion_AI_retiro ON Transaccion after insert AS
+				Update Empleado set fondo = fondo-Inserted.monto from Inserted where Inserted.cuentaOrigen=Empleado.numeroCuenta;
 
 /*INSERCIONES*/
 insert Empleado values('00000', 'No suministrado', 'No suministrado', '0000000000', 0.0, '37a6259cc0c1dae299a7866489dff0bd')

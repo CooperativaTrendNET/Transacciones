@@ -22,18 +22,17 @@ public class Main {
     }
 
     public Main() {
-<<<<<<< HEAD
+        
         Transaccion t = new Transaccion("deposito", 5000, "00011");
         ProcesoBusiness p = new ProcesoBusiness();
-        System.out.println("El deposito fue exitoso? "+p.deposito(t));
-=======
+        System.out.println("El deposito fue exitoso? "+p.credito_debito(t));
         
         JFServidor server = new JFServidor();
         
         
 //        Transaccion t = new Transaccion('d', 1000, "00010");
 //        ProcesoBusiness p = new ProcesoBusiness();
-//        System.out.println("El deposito fue exitoso? "+p.deposito(t));
+//        System.out.println("El credito_debito fue exitoso? "+p.credito_debito(t));
         
         
 //        try {
@@ -44,7 +43,6 @@ public class Main {
 //        } catch (ClassNotFoundException ex) {
 //            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
 //        }
->>>>>>> 8ac975a4485d74b3df947e02f7d6c389dfbd33a9
     }
     
 }

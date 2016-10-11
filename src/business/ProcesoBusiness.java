@@ -23,19 +23,38 @@ public class ProcesoBusiness {
         }
     }
     
-    public boolean deposito(Transaccion transaccion){
+    public boolean credito_debito(Transaccion transaccion){
         boolean flag = false;
         
         try {
             if (transaccion.getTipo().equalsIgnoreCase("deposito")) {
-                flag = this.procesoData.deposito(transaccion);
+                flag = this.procesoData.credito_debito(transaccion);
+            }else if(transaccion.getTipo().equalsIgnoreCase("retiro")){
+                flag = this.procesoData.credito_debito(transaccion);
             }else{
-                System.err.println("No es un deposito");
+                System.err.println("No es un deposito ni retiro");
             }
         } catch (SQLException ex) {
             Logger.getLogger(ProcesoBusiness.class.getName()).log(Level.SEVERE, null, ex);
             flag = false;
         }
+        return flag;
+    }
+    
+    public boolean transferencia(Transaccion transaccion){
+        boolean flag = false;
+        
+        try {
+            if (transaccion.getTipo().equalsIgnoreCase("transferencia")) {
+                flag = this.procesoData.transferencia(transaccion);
+            }else{
+                System.err.println("No es una trasferencia");
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(ProcesoBusiness.class.getName()).log(Level.SEVERE, null, ex);
+            flag = false;
+        }
+        
         return flag;
     }
 }

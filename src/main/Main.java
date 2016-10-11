@@ -21,19 +21,9 @@ public class Main {
     }
 
     public Main() {
-        Transaccion t = new Transaccion('d', 1000, "00010");
+        Transaccion t = new Transaccion("deposito", 5000, "00011");
         ProcesoBusiness p = new ProcesoBusiness();
         System.out.println("El deposito fue exitoso? "+p.deposito(t));
-        
-        
-//        try {
-//            ProcesoData pd = new ProcesoData();
-//            System.out.println(pd.getEmpleado("00110"));
-//        } catch (SQLException ex) {
-//            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
-//        } catch (ClassNotFoundException ex) {
-//            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
-//        }
     }
     
 }

@@ -1,12 +1,15 @@
 use Proyecto_Operativos_B24814_B35781_B35783_B36630
 
+/*CREACIONES*/
+create database Proyecto_Operativos_B24814_B35781_B35783_B36630
+
 create table Empleado(	numeroCuenta char(5) not null constraint PK_Empleado_numeroCuenta PRIMARY KEY,
 						nombre nvarchar(30) not null,
 						apellidos nvarchar(30) not null,
 						cedula char(10) not null constraint UK_Empleado_cedula UNIQUE,
 						fondo decimal(10, 3) not null,
 						contrasenia nvarchar(40) not null)
-
+						
 create table Transaccion(	id_transaccion int not null identity(1, 1),
 							tipo nvarchar(13) not null,
 							monto decimal(10, 3) not null,
@@ -14,6 +17,11 @@ create table Transaccion(	id_transaccion int not null identity(1, 1),
 							cuentaDestino char(5) null constraint FK_Transaccion_cuentaDestino FOREIGN KEY(cuentaDestino) REFERENCES Empleado(numeroCuenta),
 							fechaTransaccion datetime null default getDate())
 
+--CREATE TRIGGER Transaccion_transferencia ON Transaccion after insert AS
+--				Update Empleado set fondo = fondo-Transaccion.monto where Transaccion.cuentaOrigen=Empleado.numeroCuenta;
+--				Update Empleado set fondo = fondo+Transaccion.monto where Transaccion.cuentaDestino=Empleado.numeroCuenta;
+
+/*INSERCIONES*/
 insert Empleado values('00000', 'No suministrado', 'No suministrado', '0000000000', 0.0, '37a6259cc0c1dae299a7866489dff0bd')
 insert Empleado values('00001', 'Diego Andres', 'Roman Navarro', '0101340937', 100000.000, 'c673c7c6c390e3503108e4eb7f9f68d1')
 insert Empleado values('00010', 'Daniela Antonella', 'Gallardo Ramos', '0306480649', 100000.000, '664d297c3f00475676d2beade4026477')
@@ -36,5 +44,10 @@ insert Empleado values('10010', 'Joaquin Alejandro', 'Miranda Blanco', '07094906
 insert Empleado values('10011', 'Sara Vanessa', 'Gonzalez Martinez', '0307890254', 100000.000, '5c0521c55c9f33198115510656e41d75')
 insert Empleado values('10100', 'Nicolas Alexander', 'Garcia Perez', '0405430658', 100000.000, '595a3b56f7fe13886e5d22b0c0486cdb')
 
+/*CONSULTAS*/
+select * from Empleado
 select * from Transaccion
 select DATEPART(mi, fechaTransaccion) from Transaccion --yyyy:mm:dd hh:mi:ss
+
+
+/*ELIMINACIONES*/

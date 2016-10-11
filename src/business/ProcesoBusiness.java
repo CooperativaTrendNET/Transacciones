@@ -27,7 +27,7 @@ public class ProcesoBusiness {
         boolean flag = false;
         
         try {
-            if (transaccion.getTipo()=='d') {
+            if (transaccion.getTipo().equalsIgnoreCase("deposito")) {
                 flag = this.procesoData.deposito(transaccion);
             }else{
                 System.err.println("No es un deposito");

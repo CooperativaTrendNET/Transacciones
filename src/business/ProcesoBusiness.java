@@ -16,9 +16,7 @@ public class ProcesoBusiness {
     public ProcesoBusiness() {
         try {
             this.procesoData = new ProcesoData();
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(ProcesoBusiness.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
+        } catch (ClassNotFoundException | SQLException ex) {
             Logger.getLogger(ProcesoBusiness.class.getName()).log(Level.SEVERE, null, ex);
         }
     }

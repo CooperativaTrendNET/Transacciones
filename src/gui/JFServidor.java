@@ -1,6 +1,6 @@
 package gui;
 
-import data.ProcesoData;
+import business.ProcesoBusiness;
 import domain.Empleado;
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -23,7 +23,6 @@ import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
-import javax.swing.table.TableColumn;
 
 /**
  *
@@ -43,14 +42,14 @@ public class JFServidor extends JFrame implements ActionListener {
     private JLabel jlempleados;
     private JLabel jlActividad;
     private JTextArea jtActividad;
-    private ProcesoData procesoData;
+    private ProcesoBusiness procesoBusiness;
 
     public JFServidor() {
         super("Servidor");
 
         try {
             UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
-            this.procesoData = new ProcesoData();
+            this.procesoBusiness = new ProcesoBusiness();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -93,11 +92,7 @@ public class JFServidor extends JFrame implements ActionListener {
         this.jlActividad.setForeground(Color.WHITE);
         this.jlActividad.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
-        try {
-            llenaTabla();
-        } catch (ClassNotFoundException | SQLException ex) {
-            Logger.getLogger(JFServidor.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        llenaTabla();
 
         this.scrollTabla = new JScrollPane(jTabla);
         this.scrollTabla.setBorder(BorderFactory.createEmptyBorder(90, 10, 90, 10));
@@ -118,11 +113,9 @@ public class JFServidor extends JFrame implements ActionListener {
 
     }
 
-    public void llenaTabla() throws ClassNotFoundException, SQLException {
+    public void llenaTabla(){
 
-        List<Empleado> lista = new ArrayList<Empleado>();
-        
-        lista = procesoData.getEmpleados();
+        List<Empleado> lista = lista = procesoBusiness.getEmpleados();
 
         String columnas[] = {"Nombre", "Apellidos", "Cédula", "Fondos", "Num. Cuenta"};
         String tabla[][] = new String[lista.size()][columnas.length];

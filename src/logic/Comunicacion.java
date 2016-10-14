@@ -27,7 +27,8 @@ public class Comunicacion implements Runnable {
     private JTextArea jtaConsola;
     private int puerto;
     private boolean flag;
-    private boolean resultado;
+    private String resultado;
+    private Transaccion transaccion;
 
     public Comunicacion() {
         super();
@@ -52,68 +53,71 @@ public class Comunicacion implements Runnable {
 
                 this.tipo = recibir.readLine();
 
-                ProcesoData pd = new ProcesoData();
                 ProcesoBusiness pb = new ProcesoBusiness();
 
                 switch (this.tipo) {
                     case "login":
                         this.numCuenta = recibir.readLine();
                         this.contrasennia = recibir.readLine();
-
-                        if (pb.loginCorrecto(this.numCuenta, this.contrasennia) == false) {
-                            enviar.println("false");
-
-                        } else {
+                        
+                        if (pb.loginCorrecto(this.numCuenta, this.contrasennia)) {
                             enviar.println("true");
+                            Empleado empleado = pb.getEmpleado(numCuenta, contrasennia);
+                            enviar.println(empleado.getNumeroCuenta());
+                            enviar.println(empleado.getNombre());
+                            enviar.println(empleado.getApellidos());
+                            enviar.println(empleado.getCedula());
+                            enviar.println(empleado.getFondo());
                         }
                         break;
 
                     case "consulta":
                         this.numCuenta = recibir.readLine();
-                        Empleado emp = pd.getEmpleado(this.numCuenta);
-                        float fondo = emp.getFondo();
-
-                        enviar.println(fondo);
-
+                        this.contrasennia = recibir.readLine();
+                        this.transaccion = new Transaccion(this.tipo, this.numCuenta, this.contrasennia);
+                        this.resultado = String.valueOf(pb.consulta(transaccion));
+                        enviar.println(this.resultado);
                         break;
 
                     case "deposito":
-                        this.tipo = recibir.readLine();
                         this.numCuenta = recibir.readLine();
+                        this.contrasennia = recibir.readLine();
                         this.monto = Float.parseFloat(recibir.readLine());
-
-                        Transaccion deposito = new Transaccion(this.tipo, this.monto, this.numCuenta);
-                        this.resultado = pb.credito_debito(deposito);
+                        
+                        this.transaccion = new Transaccion(this.tipo, this.monto, this.numCuenta, this.contrasennia);
+                        this.resultado = String.valueOf(pb.credito_debito(this.transaccion));
                         enviar.println(this.resultado);
 
                         break;
-
+                        
                     case "retiro":
-                        this.tipo = recibir.readLine();
                         this.numCuenta = recibir.readLine();
+                        this.contrasennia = recibir.readLine();
                         this.monto = Float.parseFloat(recibir.readLine());
 
-                        Transaccion retiro = new Transaccion(this.tipo, this.monto, this.numCuenta);
-                        this.resultado = pb.credito_debito(retiro);
+                        this.transaccion = new Transaccion(this.tipo, this.monto, this.numCuenta, this.contrasennia);
+                        this.resultado = String.valueOf(pb.credito_debito(this.transaccion));
                         enviar.println(this.resultado);
                         break;
-
+                        
                     case "transferencia":
-                        this.tipo = recibir.readLine();
                         this.numCuenta = recibir.readLine();
+                        this.contrasennia = recibir.readLine();
                         this.monto = Float.parseFloat(recibir.readLine());
                         this.cuentaDestino = recibir.readLine();
 
-                        Transaccion transferencia = new Transaccion(this.tipo, this.monto, this.numCuenta, this.cuentaDestino);
-                        this.resultado = pb.transferencia(transferencia);
+                        this.transaccion = new Transaccion(this.tipo, this.monto, this.numCuenta, this.cuentaDestino, this.contrasennia);
+                        this.resultado = String.valueOf(pb.transferencia(this.transaccion));
                         enviar.println(this.resultado);
                         break;
 
+                    default:
+                        break;
                 }
                 socket.close();
             } while (this.flag);
         } catch (BindException e) {
-        } catch (IOException | SQLException | ClassNotFoundException ex) {
+        } catch (IOException ex) {
             Logger.getLogger(Comunicacion.class.getName()).log(Level.SEVERE, null, ex);
         }
 

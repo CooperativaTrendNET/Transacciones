@@ -10,7 +10,6 @@ public class Empleado {
     private String apellidos;
     private String cedula;
     private float fondo;
-    private String contrasenia;
 
     public Empleado(String numeroCuenta, String nombre, String apellidos, String cedula) {
         this.numeroCuenta = numeroCuenta;
@@ -18,7 +17,6 @@ public class Empleado {
         this.apellidos = apellidos;
         this.cedula = cedula;
         this.fondo = 0;
-        this.contrasenia = "";
     }
 
     public Empleado() {
@@ -27,7 +25,6 @@ public class Empleado {
         this.apellidos = apellidos;
         this.cedula = cedula;
         this.fondo = 0;
-        this.contrasenia = "";
     }
 
     public String getNumeroCuenta() {
@@ -70,17 +67,8 @@ public class Empleado {
         this.fondo = fondo;
     }
 
-    public String getContrasenia() {
-        return contrasenia;
-    }
-
-    public void setContrasenia(String contrasenia) {
-        this.contrasenia = contrasenia;
-    }
-
     @Override
     public String toString() {
-        return "Empleado{" + "numeroCuenta=" + numeroCuenta + ", nombre=" + nombre + ", apellidos=" + apellidos + ", cedula=" + cedula + ", fondo=" + fondo + ", contrasenia=" + contrasenia + '}';
+        return "Empleado{" + "numeroCuenta=" + numeroCuenta + ", nombre=" + nombre + ", apellidos=" + apellidos + ", cedula=" + cedula + ", fondo=" + fondo + '}';
     }
-    
 }

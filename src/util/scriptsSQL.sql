@@ -18,18 +18,26 @@ create table Transaccion(	id_transaccion int not null identity(1, 1) constraint 
 							fechaTransaccion datetime null default getDate(),
 							descripcion nvarchar(MAX))
 
-CREATE TRIGGER Transaccion_AI_transferencia ON Transaccion after insert AS
+CREATE TRIGGER Transaccion_AI ON Transaccion after insert AS exec sp_transaccion print(select tipo from Inserted)
+
+CREATE PROCEDURE sp_transaccion @tipo nvarchar(13) AS 
+	begin
+		if @tipo = 'transferencia'
+			begin
 				Update Empleado set fondo = fondo-Inserted.monto from Inserted where Inserted.cuentaOrigen=Empleado.numeroCuenta;
 				Update Empleado set fondo = fondo+Inserted.monto from Inserted where Inserted.cuentaDestino=Empleado.numeroCuenta;
-
-CREATE TRIGGER Transaccion_AI_deposito ON Transaccion after insert AS
+			end
+		else if @tipo = 'deposito'
+			begin
 				Update Empleado set fondo = fondo+Inserted.monto from Inserted where Inserted.cuentaOrigen=Empleado.numeroCuenta;
-
-CREATE TRIGGER Transaccion_AI_retiro ON Transaccion after insert AS
+			end
+		else if @tipo = 'retiro'
+			begin
 				Update Empleado set fondo = fondo-Inserted.monto from Inserted where Inserted.cuentaOrigen=Empleado.numeroCuenta;
+			end
+	end
 
 /*INSERCIONES*/
-insert Empleado values('00000', 'No suministrado', 'No suministrado', '0000000000', 0.0, '37a6259cc0c1dae299a7866489dff0bd')
 insert Empleado values('00001', 'Diego Andres', 'Roman Navarro', '0101340937', 100000.000, 'c673c7c6c390e3503108e4eb7f9f68d1')
 insert Empleado values('00010', 'Daniela Antonella', 'Gallardo Ramos', '0306480649', 100000.000, '664d297c3f00475676d2beade4026477')
 insert Empleado values('00011', 'Santiago Emiliano', 'Molina Ortiz', '0402640425', 100000.000, 'e808c61e91f9dec53303c1f1cdcad05e')
@@ -55,6 +63,3 @@ insert Empleado values('10100', 'Nicolas Alexander', 'Garcia Perez', '0405430658
 select * from Empleado
 select * from Transaccion
 select DATEPART(mi, fechaTransaccion) from Transaccion --yyyy:mm:dd hh:mi:ss
-
-
-/*ELIMINACIONES*/

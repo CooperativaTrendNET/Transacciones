@@ -12,6 +12,7 @@ public class Transaccion {
     private String cuentaDestino;
     private String fechaTransaccion;
     private String descripcion;
+    private String pass;
 
     /**
      * Constructor para la trasferencia
@@ -20,7 +21,7 @@ public class Transaccion {
      * @param cuentaOrigen Numero de cuenta de la cual se reducira el dinero
      * @param cuentaDestino Numero de cuenta a la que se depositara el dinero
      **/
-    public Transaccion(String tipo, float monto, String cuentaOrigen, String cuentaDestino) {
+    public Transaccion(String tipo, float monto, String cuentaOrigen, String cuentaDestino, String pass) {
         this.idTransaccion = 0;
         this.tipo = tipo;
         this.monto = monto;
@@ -28,9 +29,13 @@ public class Transaccion {
         this.cuentaDestino = cuentaDestino;
         this.fechaTransaccion = "";
         this.descripcion = "";
+        this.pass = pass;
     }
     
-    public Transaccion(String tipo, float monto, String cuentaOrigen){
+    /**
+     * Constructor para retiro y deposito
+     **/
+    public Transaccion(String tipo, float monto, String cuentaOrigen, String pass){
         this.idTransaccion = 0;
         this.tipo = tipo;
         this.monto = monto;
@@ -38,12 +43,13 @@ public class Transaccion {
         this.cuentaDestino = cuentaOrigen;
         this.fechaTransaccion = "";
         this.descripcion = "";
+        this.pass = pass;
     }
 
     /**
      * Consulta
      **/
-    public Transaccion(String tipo, String cuentaOrigen) {
+    public Transaccion(String tipo, String cuentaOrigen, String pass) {
         this.tipo = tipo;
         this.cuentaOrigen = cuentaOrigen;
         this.idTransaccion = 0;
@@ -51,6 +57,7 @@ public class Transaccion {
         this.cuentaDestino = "";
         this.fechaTransaccion = "";
         this.descripcion = "";
+        this.pass = pass;
     }
     
     public Transaccion() {
@@ -61,6 +68,7 @@ public class Transaccion {
         this.cuentaDestino = "";
         this.fechaTransaccion = "";
         this.descripcion = "";
+        this.pass = "";
     }
 
     public int getIdTransaccion() {
@@ -119,8 +127,16 @@ public class Transaccion {
         this.descripcion = descripcion;
     }
 
+    public String getPass() {
+        return pass;
+    }
+
+    public void setPass(String pass) {
+        this.pass = pass;
+    }
+
     @Override
     public String toString() {
-        return "Transaccion{" + "idTransaccion=" + idTransaccion + ", tipo=" + tipo + ", monto=" + monto + ", cuentaOrigen=" + cuentaOrigen + ", cuentaDestino=" + cuentaDestino + ", fechaTransaccion=" + fechaTransaccion + ", descripcion=" + descripcion + '}';
+        return "Transaccion{" + "idTransaccion=" + idTransaccion + ", tipo=" + tipo + ", monto=" + monto + ", cuentaOrigen=" + cuentaOrigen + ", cuentaDestino=" + cuentaDestino + ", fechaTransaccion=" + fechaTransaccion + ", descripcion=" + descripcion + ", pass=" + pass + '}';
     }
 }

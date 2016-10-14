@@ -4,6 +4,7 @@ import data.ProcesoData;
 import domain.Empleado;
 import domain.Transaccion;
 import java.sql.SQLException;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -56,21 +57,45 @@ public class ProcesoBusiness {
 
         return flag;
     }
+    public float consulta(Transaccion transaccion){
+        try {
+            return this.procesoData.consulta(transaccion);
+        } catch (SQLException ex) {
+            Logger.getLogger(ProcesoBusiness.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return 0;
+    }
 
     public boolean loginCorrecto(String cuenta, String pass) {
+        boolean flag = false;
+        
         try {
-            ProcesoData pd = new ProcesoData();
-            Empleado emp = new Empleado();
-            emp = pd.getEmpleado(cuenta);
-            if (emp.getContrasenia().equals(pass)) {
-                return true;
+            Empleado empleado = this.procesoData.getEmpleado(cuenta, pass);
+            if (empleado.getNumeroCuenta() != null) {
+                flag = true;
             }
-
-        } catch (ClassNotFoundException | SQLException ex) {
+        } catch (SQLException ex) {
             Logger.getLogger(ProcesoBusiness.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        return false;
-
+        return flag;
+    }
+    
+    public Empleado getEmpleado(String cuenta, String contrasennia){
+        try {
+            return this.procesoData.getEmpleado(cuenta, contrasennia);
+        } catch (SQLException ex) {
+            Logger.getLogger(ProcesoBusiness.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+    
+    public List getEmpleados(){
+        try {
+            return this.procesoData.getEmpleados();
+        } catch (SQLException ex) {
+            Logger.getLogger(ProcesoBusiness.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
     }
 }

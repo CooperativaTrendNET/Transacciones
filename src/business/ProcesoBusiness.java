@@ -22,7 +22,16 @@ public class ProcesoBusiness {
             Logger.getLogger(ProcesoBusiness.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-
+    
+    public boolean iniciarAhorro(){
+        try {
+            return this.procesoData.iniciarAhorro();
+        } catch (SQLException ex) {
+            Logger.getLogger(ProcesoBusiness.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return false;
+    }
+            
     public boolean credito_debito(Transaccion transaccion) {
         boolean flag = false;
 

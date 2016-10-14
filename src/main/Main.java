@@ -54,8 +54,9 @@ public class Main {
 
 
 
-        Comunicacion c = new Comunicacion();
-        c.run();
+//        ProcesoBusiness p  = new ProcesoBusiness();
+//        Transaccion t = new Transaccion("consulta", "00001", "c673c7c6c390e3503108e4eb7f9f68d1");
+//        System.out.println(p.consulta(t));
         
     }
 

@@ -16,24 +16,27 @@ create table Transaccion(	id_transaccion int not null identity(1, 1) constraint 
 							cuentaOrigen char(5) not null constraint FK_Transaccion_cuentaOrigen FOREIGN KEY(cuentaOrigen) REFERENCES Empleado(numeroCuenta),
 							cuentaDestino char(5) null constraint FK_Transaccion_cuentaDestino FOREIGN KEY(cuentaDestino) REFERENCES Empleado(numeroCuenta),
 							fechaTransaccion datetime null default getDate(),
-							descripcion nvarchar(MAX))
+							descripcion nvarchar(MAX) null)
 
-CREATE TRIGGER Transaccion_AI ON Transaccion after insert AS exec sp_transaccion print(select tipo from Inserted)
+--CREATE TRIGGER Transaccion_AI ON Transaccion after insert AS exec sp_transaccion print(select tipo from Inserted)
 
-CREATE PROCEDURE sp_transaccion @tipo nvarchar(13) AS 
+CREATE PROCEDURE sp_Empleado_Transaccion @tipo nvarchar(13), @monto decimal(10, 3), @cuentaOrigen char(5), @cuentaDestino char(5) = null, @descripcion nvarchar(MAX) = null AS 
 	begin
 		if @tipo = 'transferencia'
 			begin
-				Update Empleado set fondo = fondo-Inserted.monto from Inserted where Inserted.cuentaOrigen=Empleado.numeroCuenta;
-				Update Empleado set fondo = fondo+Inserted.monto from Inserted where Inserted.cuentaDestino=Empleado.numeroCuenta;
+				Update Empleado set fondo = fondo - @monto where @cuentaOrigen = Empleado.numeroCuenta;
+				Update Empleado set fondo = fondo + @monto where @cuentaDestino = Empleado.numeroCuenta;
+				Insert Transaccion(tipo, monto, cuentaOrigen, cuentaDestino, descripcion) values(@tipo, @monto, @cuentaOrigen, @cuentaDestino, @descripcion)
 			end
 		else if @tipo = 'deposito'
 			begin
-				Update Empleado set fondo = fondo+Inserted.monto from Inserted where Inserted.cuentaOrigen=Empleado.numeroCuenta;
+				Update Empleado set fondo = fondo + @monto where @cuentaOrigen = Empleado.numeroCuenta;
+				Insert Transaccion(tipo, monto, cuentaOrigen, descripcion) values(@tipo, @monto, @cuentaOrigen, @descripcion)
 			end
 		else if @tipo = 'retiro'
 			begin
-				Update Empleado set fondo = fondo-Inserted.monto from Inserted where Inserted.cuentaOrigen=Empleado.numeroCuenta;
+				Update Empleado set fondo = fondo - @monto where @cuentaOrigen = Empleado.numeroCuenta;
+				Insert Transaccion(tipo, monto, cuentaOrigen, descripcion) values(@tipo, @monto, @cuentaOrigen, @descripcion)
 			end
 	end
 

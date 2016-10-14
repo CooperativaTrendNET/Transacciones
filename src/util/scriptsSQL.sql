@@ -16,24 +16,50 @@ create table Transaccion(	id_transaccion int not null identity(1, 1) constraint 
 							cuentaOrigen char(5) not null constraint FK_Transaccion_cuentaOrigen FOREIGN KEY(cuentaOrigen) REFERENCES Empleado(numeroCuenta),
 							cuentaDestino char(5) null constraint FK_Transaccion_cuentaDestino FOREIGN KEY(cuentaDestino) REFERENCES Empleado(numeroCuenta),
 							fechaTransaccion datetime null default getDate(),
-							descripcion nvarchar(MAX))
+							descripcion nvarchar(MAX) null)
 
-CREATE TRIGGER Transaccion_AI ON Transaccion after insert AS exec sp_transaccion print(select tipo from Inserted)
+create table Cuenta_Maestra(	id int not null identity(1,1) constraint PK_Cuenta_Maestra_id Primary Key,
+								fondo_maestro money not null,
+								fecha datetime null default getDate(),
+								descripcion nvarchar(MAX) null)
 
-CREATE PROCEDURE sp_transaccion @tipo nvarchar(13) AS 
+--create trigger Transaccion_AI ON Transaccion after insert AS insert A values('b')
+--exec sp_Cuenta_Maestra_Ahorro;
+--select * from Empleado
+--select * from Cuenta_Maestra
+
+create procedure sp_Cuenta_Maestra_Ahorro as
+	begin
+		while 1=1
+			begin
+				declare @num_ids int;
+				declare @fondo_anterior money;
+				select @num_ids = count(id) from Cuenta_Maestra;
+				select @fondo_anterior = fondo_maestro from Cuenta_Maestra where id=@num_ids
+
+				insert Cuenta_Maestra(fondo_maestro, descripcion) values(@fondo_anterior-20000,'Rebajo por cuenta de ahorro automatico para todos los empleados')
+				Update Empleado set fondo = fondo + 1000
+				WAITFOR DELAY '00:03:00' --hh:mi:ss.mmm
+			end
+	end
+
+create procedure sp_Empleado_Transaccion @tipo nvarchar(13), @monto decimal(10, 3), @cuentaOrigen char(5), @cuentaDestino char(5) = null, @descripcion nvarchar(MAX) = null as
 	begin
 		if @tipo = 'transferencia'
 			begin
-				Update Empleado set fondo = fondo-Inserted.monto from Inserted where Inserted.cuentaOrigen=Empleado.numeroCuenta;
-				Update Empleado set fondo = fondo+Inserted.monto from Inserted where Inserted.cuentaDestino=Empleado.numeroCuenta;
+				Update Empleado set fondo = fondo - @monto where @cuentaOrigen = Empleado.numeroCuenta;
+				Update Empleado set fondo = fondo + @monto where @cuentaDestino = Empleado.numeroCuenta;
+				Insert Transaccion(tipo, monto, cuentaOrigen, cuentaDestino, descripcion) values(@tipo, @monto, @cuentaOrigen, @cuentaDestino, @descripcion)
 			end
 		else if @tipo = 'deposito'
 			begin
-				Update Empleado set fondo = fondo+Inserted.monto from Inserted where Inserted.cuentaOrigen=Empleado.numeroCuenta;
+				Update Empleado set fondo = fondo + @monto where @cuentaOrigen = Empleado.numeroCuenta;
+				Insert Transaccion(tipo, monto, cuentaOrigen, descripcion) values(@tipo, @monto, @cuentaOrigen, @descripcion)
 			end
 		else if @tipo = 'retiro'
 			begin
-				Update Empleado set fondo = fondo-Inserted.monto from Inserted where Inserted.cuentaOrigen=Empleado.numeroCuenta;
+				Update Empleado set fondo = fondo - @monto where @cuentaOrigen = Empleado.numeroCuenta;
+				Insert Transaccion(tipo, monto, cuentaOrigen, descripcion) values(@tipo, @monto, @cuentaOrigen, @descripcion)
 			end
 	end
 
@@ -59,7 +85,9 @@ insert Empleado values('10010', 'Joaquin Alejandro', 'Miranda Blanco', '07094906
 insert Empleado values('10011', 'Sara Vanessa', 'Gonzalez Martinez', '0307890254', 100000.000, '5c0521c55c9f33198115510656e41d75')
 insert Empleado values('10100', 'Nicolas Alexander', 'Garcia Perez', '0405430658', 100000.000, '595a3b56f7fe13886e5d22b0c0486cdb')
 
+insert Cuenta_Maestra(fondo_maestro, descripcion) values(100000000, 'Fondo inicial')
 /*CONSULTAS*/
 select * from Empleado
+select * from Cuenta_Maestra
 select * from Transaccion
 select DATEPART(mi, fechaTransaccion) from Transaccion --yyyy:mm:dd hh:mi:ss

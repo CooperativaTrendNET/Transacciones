@@ -30,7 +30,7 @@ public class Main {
 //        Transaccion t = new Transaccion("deposito", 5000, "00011");
 //        ProcesoBusiness p = new ProcesoBusiness();
 //        System.out.println("El deposito fue exitoso? "+p.credito_debito(t));
-//        JFServidor server = new JFServidor();
+        JFServidor server = new JFServidor();
 //        List<Empleado> lista = new ArrayList<Empleado>();
 
 //        Transaccion t = new Transaccion('d', 1000, "00010");
@@ -53,10 +53,16 @@ public class Main {
 
 
 
+<<<<<<< HEAD
 
 //        ProcesoBusiness p  = new ProcesoBusiness();
 //        Transaccion t = new Transaccion("consulta", "00001", "c673c7c6c390e3503108e4eb7f9f68d1");
 //        System.out.println(p.consulta(t));
+=======
+//
+//        Comunicacion c = new Comunicacion();
+//        c.run();
+>>>>>>> 3a934d3c7a834d39e31712b15b018d47eb460adb
         
     }
 

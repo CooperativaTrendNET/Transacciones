@@ -8,6 +8,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -23,6 +24,7 @@ import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
+import logic.Comunicacion;
 
 /**
  *
@@ -43,24 +45,26 @@ public class JFServidor extends JFrame implements ActionListener {
     private JLabel jlActividad;
     private JTextArea jtActividad;
     private ProcesoBusiness procesoBusiness;
-
+    private Comunicacion comunicacion;
+    private Calendar calendar;
+    
     public JFServidor() {
         super("Servidor");
-
+        this.calendar = Calendar.getInstance();
         try {
             UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
             this.procesoBusiness = new ProcesoBusiness();
         } catch (Exception e) {
             e.printStackTrace();
         }
-        
+
         this.setLayout(new BorderLayout());
         this.setSize(1200, 600);
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         init();
 
         this.setVisible(true);
-        
+
     }
 
     public void init() {
@@ -97,8 +101,11 @@ public class JFServidor extends JFrame implements ActionListener {
         this.scrollTabla = new JScrollPane(jTabla);
         this.scrollTabla.setBorder(BorderFactory.createEmptyBorder(90, 10, 90, 10));
         this.scrollTabla.setBackground(new Color(80, 145, 220));
-
-        this.jtActividad = new JTextArea("HOLA");
+        
+        int dia = calendar.get(Calendar.DATE);
+        int mes = calendar.get(Calendar.MONTH) + 1;
+        int annio = calendar.get(Calendar.YEAR);
+        this.jtActividad = new JTextArea("Bitácora de procesos del día: "+ dia + " / " + mes + " / " + annio + "\n\n");
         this.jtActividad.setEditable(false);
         this.scrollTA = new JScrollPane(jtActividad);
         this.scrollTA.setBorder(BorderFactory.createCompoundBorder());
@@ -113,7 +120,7 @@ public class JFServidor extends JFrame implements ActionListener {
 
     }
 
-    public void llenaTabla(){
+    public void llenaTabla() {
 
         List<Empleado> lista = lista = procesoBusiness.getEmpleados();
 
@@ -146,29 +153,23 @@ public class JFServidor extends JFrame implements ActionListener {
 
         this.jTabla = new JTable(tabla, columnas);
         this.jTabla.setEnabled(false);
-//        this.jTabla.setFillsViewportHeight(true);
-//        TableColumn column = null;
-//
-//        for (int i = 0; i < 5; i++) {
-//            column = this.jTabla.getColumnModel().getColumn(i);
-//            
-//                column.setPreferredWidth(435); 
-//            
-//        }
 
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == jmIniciar) {
-            System.out.println("TODO");
+
             this.jmiFinalizar.setEnabled(true);
             this.jmIniciar.setEnabled(false);
+            this.comunicacion = new Comunicacion();
+            this.comunicacion.Hilo(jtActividad);
+
+            Thread h = new Thread(comunicacion);
+            h.start();
 
         } else if (e.getSource() == jmiFinalizar) {
-            System.out.println("TODO 2");
-            this.jmiFinalizar.setEnabled(false);
-            this.jmIniciar.setEnabled(true);
+            System.exit(0);
 
         }
 

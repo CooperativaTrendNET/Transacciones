@@ -45,7 +45,7 @@ public class Comunicacion implements Runnable {
 
         try {
             ServerSocket serverSocket = new ServerSocket(this.puerto);
-
+            this.jtaConsola.append("Se ha iniciado el Servidor\n");
             do {
                 Socket socket = serverSocket.accept();
                 PrintStream enviar = new PrintStream(socket.getOutputStream());
@@ -68,7 +68,10 @@ public class Comunicacion implements Runnable {
                             enviar.println(empleado.getApellidos());
                             enviar.println(empleado.getCedula());
                             enviar.println(empleado.getFondo());
+                            this.jtaConsola.append("El ususario "+ empleado.getNumeroCuenta()+" ha ingresado al sistema\n");
                         }
+                        
+                        this.jtaConsola.append("Error al iniciar sesión\n");
                         break;
 
                     case "consulta":
@@ -77,6 +80,7 @@ public class Comunicacion implements Runnable {
                         this.transaccion = new Transaccion(this.tipo, this.numCuenta, this.contrasennia);
                         this.resultado = String.valueOf(pb.consulta(transaccion));
                         enviar.println(this.resultado);
+                        this.jtaConsola.append("El ususario "+ numCuenta+" ha consultado sus fondos\n");
                         break;
 
                     case "deposito":
@@ -87,6 +91,7 @@ public class Comunicacion implements Runnable {
                         this.transaccion = new Transaccion(this.tipo, this.monto, this.numCuenta, this.contrasennia);
                         this.resultado = String.valueOf(pb.credito_debito(this.transaccion));
                         enviar.println(this.resultado);
+                        this.jtaConsola.append("El ususario "+ numCuenta+" ha depositado " + this.monto +" colones a su respectiva cuenta\n");
 
                         break;
                         
@@ -98,6 +103,8 @@ public class Comunicacion implements Runnable {
                         this.transaccion = new Transaccion(this.tipo, this.monto, this.numCuenta, this.contrasennia);
                         this.resultado = String.valueOf(pb.credito_debito(this.transaccion));
                         enviar.println(this.resultado);
+                        this.jtaConsola.append("El ususario "+ numCuenta+" ha retirado " + this.monto +" colones de su respectiva cuenta\n");
+
                         break;
                         
                     case "transferencia":
@@ -109,6 +116,9 @@ public class Comunicacion implements Runnable {
                         this.transaccion = new Transaccion(this.tipo, this.monto, this.numCuenta, this.cuentaDestino, this.contrasennia);
                         this.resultado = String.valueOf(pb.transferencia(this.transaccion));
                         enviar.println(this.resultado);
+                        this.jtaConsola.append("El ususario "+ numCuenta+" ha transferido " + this.monto +
+                                " colones a la cuenta : " + this.cuentaDestino+"\n");
+
                         break;
 
                     default:

@@ -30,7 +30,7 @@ public class Main {
 //        Transaccion t = new Transaccion("deposito", 5000, "00011");
 //        ProcesoBusiness p = new ProcesoBusiness();
 //        System.out.println("El deposito fue exitoso? "+p.credito_debito(t));
-//        JFServidor server = new JFServidor();
+        JFServidor server = new JFServidor();
 //        List<Empleado> lista = new ArrayList<Empleado>();
 
 //        Transaccion t = new Transaccion('d', 1000, "00010");
@@ -53,9 +53,9 @@ public class Main {
 
 
 
-
-        Comunicacion c = new Comunicacion();
-        c.run();
+//
+//        Comunicacion c = new Comunicacion();
+//        c.run();
         
     }
 

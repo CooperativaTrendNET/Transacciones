@@ -25,6 +25,7 @@ import javax.swing.JTextArea;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 import logic.Comunicacion;
+import logic.TablaEmpleados;
 
 /**
  *
@@ -47,10 +48,19 @@ public class JFServidor extends JFrame implements ActionListener {
     private ProcesoBusiness procesoBusiness;
     private Comunicacion comunicacion;
     private Calendar calendar;
+    private String[] columnas;
+    private String[][] tabla;
     
     public JFServidor() {
         super("Servidor");
         this.calendar = Calendar.getInstance();
+        this.columnas = new String[5];
+        this.columnas[0] = "Nombre";
+        this.columnas[1] = "Apellidos";
+        this.columnas[2] = "Cédula";
+        this.columnas[3] = "Fondos";
+        this.columnas[4] = "Num. Cuenta";
+        this.tabla = new String[20][columnas.length];
         try {
             UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
             this.procesoBusiness = new ProcesoBusiness();
@@ -96,7 +106,8 @@ public class JFServidor extends JFrame implements ActionListener {
         this.jlActividad.setForeground(Color.WHITE);
         this.jlActividad.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
-        llenaTabla();
+        this.jTabla = new JTable(tabla, columnas);
+        this.jTabla.setEnabled(false);
 
         this.scrollTabla = new JScrollPane(jTabla);
         this.scrollTabla.setBorder(BorderFactory.createEmptyBorder(90, 10, 90, 10));
@@ -117,44 +128,14 @@ public class JFServidor extends JFrame implements ActionListener {
         this.add(this.jPanelEmpleados, BorderLayout.EAST);
         this.add(this.jPanelActividad, BorderLayout.CENTER);
         this.add(this.jMenuBar, BorderLayout.NORTH);
+        
+        TablaEmpleados te = new TablaEmpleados(this.jTabla, this.columnas, this.tabla);
+        Thread hiloTabla = new Thread(te);
+        hiloTabla.start();
 
     }
 
-    public void llenaTabla() {
-
-        List<Empleado> lista = lista = procesoBusiness.getEmpleados();
-
-        String columnas[] = {"Nombre", "Apellidos", "Cédula", "Fondos", "Num. Cuenta"};
-        String tabla[][] = new String[lista.size()][columnas.length];
-
-        for (int i = 0; i < tabla.length; i++) {
-            for (int j = 0; j < tabla[i].length; j++) {
-
-                switch (j) {
-                    case 0:
-                        tabla[i][j] = lista.get(i).getNombre();
-                        break;
-                    case 1:
-                        tabla[i][j] = lista.get(i).getApellidos();
-                        break;
-                    case 2:
-                        tabla[i][j] = lista.get(i).getCedula();
-                        break;
-                    case 3:
-                        tabla[i][j] = lista.get(i).getFondo() + "";
-                        break;
-                    default:
-                        tabla[i][j] = lista.get(i).getNumeroCuenta();
-                        break;
-                }
-            }
-
-        }
-
-        this.jTabla = new JTable(tabla, columnas);
-        this.jTabla.setEnabled(false);
-
-    }
+   
 
     @Override
     public void actionPerformed(ActionEvent e) {

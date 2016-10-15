@@ -88,5 +88,8 @@ select DATEPART(mi, fechaTransaccion) from Transaccion --yyyy:mm:dd hh:mi:ss
 --create trigger Transaccion_AI ON Transaccion after insert AS insert A values('b')
 --exec sp_Cuenta_Maestra_Ahorro;
 --select * from Empleado
+--select * from Transaccion
 --select * from Cuenta_Maestra
 --drop procedure sp_Cuenta_Maestra_Ahorro
+--truncate table Transaccion
+--update Empleado set fondo=100000

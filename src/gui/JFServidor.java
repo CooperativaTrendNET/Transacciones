@@ -1,17 +1,11 @@
 package gui;
 
 import business.ProcesoBusiness;
-import domain.Empleado;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.BorderFactory;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -128,11 +122,6 @@ public class JFServidor extends JFrame implements ActionListener {
         this.add(this.jPanelEmpleados, BorderLayout.EAST);
         this.add(this.jPanelActividad, BorderLayout.CENTER);
         this.add(this.jMenuBar, BorderLayout.NORTH);
-        
-        TablaEmpleados te = new TablaEmpleados(this.jTabla, this.columnas, this.tabla);
-        Thread hiloTabla = new Thread(te);
-        hiloTabla.start();
-
     }
 
    
@@ -151,6 +140,9 @@ public class JFServidor extends JFrame implements ActionListener {
             
             this.procesoBusiness.iniciarAhorro();
             
+            TablaEmpleados te = new TablaEmpleados(this.jTabla, this.columnas, this.tabla);
+            te.start();
+        
         } else if (e.getSource() == jmiFinalizar) {
             System.exit(0);
 

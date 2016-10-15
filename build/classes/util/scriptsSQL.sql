@@ -91,5 +91,5 @@ select DATEPART(mi, fechaTransaccion) from Transaccion --yyyy:mm:dd hh:mi:ss
 --select * from Transaccion
 --select * from Cuenta_Maestra
 --drop procedure sp_Cuenta_Maestra_Ahorro
---truncate table Transaccion
+--truncate table Cuenta_Maestra
 --update Empleado set fondo=100000

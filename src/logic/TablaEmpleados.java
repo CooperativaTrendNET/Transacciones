@@ -29,8 +29,7 @@ public class TablaEmpleados extends Thread{
     }
     
      public void llenaTabla() {
-         
-         List<Empleado> lista = lista = procesoBusiness.getEmpleados();
+        List<Empleado> lista = lista = procesoBusiness.getEmpleados();
        
         for (int i = 0; i < tabla.length; i++) {
             for (int j = 0; j < tabla[i].length; j++) {
@@ -69,7 +68,7 @@ public class TablaEmpleados extends Thread{
             this.jtaEmpleados.repaint();
             
             try {
-                Thread.sleep(1000);
+                Thread.sleep(2000);
             } catch (InterruptedException ex) {
                 Logger.getLogger(TablaEmpleados.class.getName()).log(Level.SEVERE, null, ex);
             }

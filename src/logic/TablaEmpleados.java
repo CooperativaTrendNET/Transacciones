@@ -66,6 +66,7 @@ public class TablaEmpleados extends Thread{
           while(true){
         
             llenaTabla();
+            this.jtaEmpleados.repaint();
             
             try {
                 Thread.sleep(1000);

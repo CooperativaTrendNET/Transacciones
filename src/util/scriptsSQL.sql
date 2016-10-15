@@ -23,24 +23,15 @@ create table Cuenta_Maestra(	id int not null identity(1,1) constraint PK_Cuenta_
 								fecha datetime null default getDate(),
 								descripcion nvarchar(MAX) null)
 
---create trigger Transaccion_AI ON Transaccion after insert AS insert A values('b')
---exec sp_Cuenta_Maestra_Ahorro;
---select * from Empleado
---select * from Cuenta_Maestra
-
 create procedure sp_Cuenta_Maestra_Ahorro as
 	begin
-		while 1=1
-			begin
-				declare @num_ids int;
-				declare @fondo_anterior money;
-				select @num_ids = count(id) from Cuenta_Maestra;
-				select @fondo_anterior = fondo_maestro from Cuenta_Maestra where id=@num_ids
-
-				insert Cuenta_Maestra(fondo_maestro, descripcion) values(@fondo_anterior-20000,'Rebajo por cuenta de ahorro automatico para todos los empleados')
-				Update Empleado set fondo = fondo + 1000
-				WAITFOR DELAY '00:03:00' --hh:mi:ss.mmm
-			end
+		declare @num_ids int;
+		declare @fondo_anterior money;
+		select @num_ids = count(id) from Cuenta_Maestra;
+		select @fondo_anterior = fondo_maestro from Cuenta_Maestra where id=@num_ids
+		
+		insert Cuenta_Maestra(fondo_maestro, descripcion) values(@fondo_anterior-20000,'Rebajo por cuenta de ahorro automatico para todos los empleados')
+		Update Empleado set fondo = fondo + 1000
 	end
 
 create procedure sp_Empleado_Transaccion @tipo nvarchar(13), @monto decimal(10, 3), @cuentaOrigen char(5), @cuentaDestino char(5) = null, @descripcion nvarchar(MAX) = null as
@@ -86,8 +77,19 @@ insert Empleado values('10011', 'Sara Vanessa', 'Gonzalez Martinez', '0307890254
 insert Empleado values('10100', 'Nicolas Alexander', 'Garcia Perez', '0405430658', 100000.000, '595a3b56f7fe13886e5d22b0c0486cdb')
 
 insert Cuenta_Maestra(fondo_maestro, descripcion) values(100000000, 'Fondo inicial')
+
 /*CONSULTAS*/
 select * from Empleado
 select * from Cuenta_Maestra
 select * from Transaccion
 select DATEPART(mi, fechaTransaccion) from Transaccion --yyyy:mm:dd hh:mi:ss
+
+
+--create trigger Transaccion_AI ON Transaccion after insert AS insert A values('b')
+--exec sp_Cuenta_Maestra_Ahorro;
+--select * from Empleado
+--select * from Transaccion
+--select * from Cuenta_Maestra
+--drop procedure sp_Cuenta_Maestra_Ahorro
+--truncate table Transaccion
+--update Empleado set fondo=100000

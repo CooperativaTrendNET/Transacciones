@@ -10,8 +10,10 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
-public class ProcesoData {
+public class ProcesoData{
 
     private Connection connection;
 
@@ -22,18 +24,9 @@ public class ProcesoData {
         System.out.println("Se ha conectado correctamente");
     }
 
-    public boolean iniciarAhorro() throws SQLException {
-        boolean flag = false;
-
-        CallableStatement cs = this.connection.prepareCall("{call sp_Cuenta_Maestra_Ahorro()}");
-        cs.execute();
-        
-        cs.close();
-        this.connection.close();
-        
-        flag = true;
-
-        return flag;
+    public void iniciarAhorro() throws SQLException, ClassNotFoundException {        
+        AhorroAutomaticoData ahorroAutomatico = new AhorroAutomaticoData();
+        ahorroAutomatico.start();
     }
 
     public boolean credito_debito(Transaccion transaccion) throws SQLException {
@@ -136,6 +129,7 @@ public class ProcesoData {
         resultSet.close();
         return listaEmpleados;
     }
+
     /*
         credito_debito - deposito - retiro
         transferencia

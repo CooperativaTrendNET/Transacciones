@@ -23,13 +23,14 @@ public class ProcesoBusiness {
         }
     }
     
-    public boolean iniciarAhorro(){
+    public void iniciarAhorro(){
         try {
-            return this.procesoData.iniciarAhorro();
+            this.procesoData.iniciarAhorro();
         } catch (SQLException ex) {
             Logger.getLogger(ProcesoBusiness.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(ProcesoBusiness.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return false;
     }
             
     public boolean credito_debito(Transaccion transaccion) {

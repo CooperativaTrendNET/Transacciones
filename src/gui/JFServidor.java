@@ -167,7 +167,9 @@ public class JFServidor extends JFrame implements ActionListener {
 
             Thread h = new Thread(comunicacion);
             h.start();
-
+            
+            this.procesoBusiness.iniciarAhorro();
+            
         } else if (e.getSource() == jmiFinalizar) {
             System.exit(0);
 

@@ -92,19 +92,22 @@ public class Comunicacion implements Runnable {
                         this.transaccion = new Transaccion(this.tipo, this.monto, this.numCuenta, this.contrasennia);
                         this.resultado = String.valueOf(pb.credito_debito(this.transaccion));
                         enviar.println(this.resultado);
-                        this.jtaConsola.append("El usuario "+ numCuenta+" ha depositado " + this.monto +" colones a su respectiva cuenta\n");
-
+                        if (Boolean.parseBoolean(this.resultado)) {
+                            this.jtaConsola.append("El usuario "+ numCuenta+" ha depositado " + this.monto +" colones a su respectiva cuenta\n");
+                        }
+                        
                         break;
                         
                     case "retiro":
                         this.numCuenta = recibir.readLine();
                         this.contrasennia = recibir.readLine();
                         this.monto = Float.parseFloat(recibir.readLine());
-
                         this.transaccion = new Transaccion(this.tipo, this.monto, this.numCuenta, this.contrasennia);
                         this.resultado = String.valueOf(pb.credito_debito(this.transaccion));
                         enviar.println(this.resultado);
-                        this.jtaConsola.append("El usuario "+ numCuenta+" ha retirado " + this.monto +" colones de su respectiva cuenta\n");
+                        if (Boolean.parseBoolean(this.resultado)) {
+                            this.jtaConsola.append("El usuario "+ numCuenta+" ha retirado " + this.monto +" colones de su respectiva cuenta\n");
+                        }
 
                         break;
                         
@@ -113,12 +116,15 @@ public class Comunicacion implements Runnable {
                         this.contrasennia = recibir.readLine();
                         this.monto = Float.parseFloat(recibir.readLine());
                         this.cuentaDestino = recibir.readLine();
-
+                        String descripcion = "";
                         this.transaccion = new Transaccion(this.tipo, this.monto, this.numCuenta, this.cuentaDestino, this.contrasennia);
+                        this.transaccion.setDescripcion(descripcion);
                         this.resultado = String.valueOf(pb.transferencia(this.transaccion));
                         enviar.println(this.resultado);
-                        this.jtaConsola.append("El usuario "+ numCuenta+" ha transferido " + this.monto +
-                                " colones a la cuenta : " + this.cuentaDestino+"\n");
+                        if (Boolean.parseBoolean(this.resultado)) {
+                            this.jtaConsola.append("El usuario "+ numCuenta+" ha transferido " + this.monto +
+                                    " colones a la cuenta : " + this.cuentaDestino+"\n");
+                        }
 
                         break;
 

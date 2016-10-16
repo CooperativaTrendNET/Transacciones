@@ -30,39 +30,43 @@ public class ProcesoData{
     }
 
     public boolean credito_debito(Transaccion transaccion) throws SQLException {
-        boolean flag = true;
+        boolean flag = false;
 
-        if (getEmpleado(transaccion.getCuentaOrigen(), transaccion.getPass()).getNombre() != null) {
-            CallableStatement cs = this.connection.prepareCall("{call sp_Empleado_Transaccion(?, ?, ?, ?, ?)}");
-            cs.setString(1, transaccion.getTipo());
-            cs.setFloat(2, transaccion.getMonto());
-            cs.setString(3, transaccion.getCuentaOrigen());
-            cs.setString(4, null);
-            cs.setString(5, transaccion.getDescripcion());
-            cs.execute();
-            cs.close();
-        } else {
-            flag = false;
+        Empleado empleado = getEmpleado(transaccion.getCuentaOrigen(), transaccion.getPass());
+        if (empleado.getNombre() != null) {
+            if(empleado.getFondo() >= transaccion.getMonto()){
+                CallableStatement cs = this.connection.prepareCall("{call sp_Empleado_Transaccion(?, ?, ?, ?, ?)}");
+                cs.setString(1, transaccion.getTipo());
+                cs.setFloat(2, transaccion.getMonto());
+                cs.setString(3, transaccion.getCuentaOrigen());
+                cs.setString(4, null);
+                cs.setString(5, transaccion.getDescripcion());
+                cs.execute();
+                cs.close();
+                flag = true;
+            }
         }
-
+        
         this.connection.close();
         return flag;
     }
 
     public boolean transferencia(Transaccion transaccion) throws SQLException {
-        boolean flag = true;
-
-        if (getEmpleado(transaccion.getCuentaOrigen(), transaccion.getPass()).getNombre() != null) {
-            CallableStatement cs = this.connection.prepareCall("{call sp_Empleado_Transaccion(?, ?, ?, ?, ?)}");
-            cs.setString(1, transaccion.getTipo());
-            cs.setFloat(2, transaccion.getMonto());
-            cs.setString(3, transaccion.getCuentaOrigen());
-            cs.setString(4, transaccion.getCuentaDestino());
-            cs.setString(5, transaccion.getDescripcion());
-            cs.execute();
-            cs.close();
-        } else {
-            flag = false;
+        boolean flag = false;
+        Empleado empleado = getEmpleado(transaccion.getCuentaOrigen(), transaccion.getPass());
+        
+        if (empleado.getNombre() != null && existeDestino(transaccion.getCuentaDestino())) {
+            if(empleado.getFondo() >= transaccion.getMonto()){
+                CallableStatement cs = this.connection.prepareCall("{call sp_Empleado_Transaccion(?, ?, ?, ?, ?)}");
+                cs.setString(1, transaccion.getTipo());
+                cs.setFloat(2, transaccion.getMonto());
+                cs.setString(3, transaccion.getCuentaOrigen());
+                cs.setString(4, transaccion.getCuentaDestino());
+                cs.setString(5, transaccion.getDescripcion());
+                cs.execute();
+                cs.close();
+                flag = true;
+            }
         }
 
         return flag;
@@ -77,15 +81,6 @@ public class ProcesoData{
         float monto = 0;
 
         if (empleado.getNombre() != null) {
-//            Statement statement = connection.createStatement();
-//            ResultSet resultSet = statement.executeQuery("SELECT fondo FROM Empleado WHERE numeroCuenta='" + cuenta + "' AND contrasenia='" + contrasennnia + "'");
-//
-//            while (resultSet.next()) {
-//                monto = (float) resultSet.getFloat("fondo");
-//            }
-//
-//            statement.close();
-//            resultSet.close();
             return empleado.getFondo();
         }
 
@@ -95,7 +90,6 @@ public class ProcesoData{
     public Empleado getEmpleado(String cuenta, String contrasennia) throws SQLException {
         Empleado empleado = new Empleado();
         
-        System.out.println("get empleado: "+cuenta+"   -   "+contrasennia);
         Statement statement = connection.createStatement();
         ResultSet resultSet = statement.executeQuery("SELECT numeroCuenta, nombre, apellidos, cedula, fondo FROM Empleado WHERE numeroCuenta='" + cuenta + "' AND contrasenia='" + contrasennia + "'");
 
@@ -105,16 +99,34 @@ public class ProcesoData{
             empleado.setApellidos(resultSet.getString("apellidos"));
             empleado.setCedula(resultSet.getString("cedula"));
             empleado.setFondo((float) resultSet.getFloat("fondo"));
-            System.out.println(empleado);
         }
-        
-        
         
         statement.close();
         resultSet.close();
         return empleado;
     }
+    
+    public boolean existeDestino(String numCuenta) throws SQLException {
+        boolean flag = false;
+        String cuentaAux = "";
+        
+        Statement statement = connection.createStatement();
+        ResultSet resultSet = statement.executeQuery("SELECT numeroCuenta FROM Empleado WHERE numeroCuenta='" + numCuenta + "'");
 
+        while (resultSet.next()) {
+            cuentaAux = resultSet.getString("numeroCuenta");
+        }
+        
+        if (!cuentaAux.equals("")) {
+            flag = true;
+            System.out.println("cuentaAux: "+cuentaAux);
+        }
+        
+        statement.close();
+        resultSet.close();
+        return flag;
+    }
+    
     public List getEmpleados() throws SQLException {
         List<Empleado> listaEmpleados = new ArrayList();
         Statement statement = connection.createStatement();

@@ -32,7 +32,7 @@ public class AhorroAutomaticoData extends Thread{
                 CallableStatement cs = this.connection.prepareCall("{call sp_Cuenta_Maestra_Ahorro()}");
                 cs.execute();
                 cs.close();
-                Thread.sleep(2000);//180000
+                Thread.sleep(180000);//180000
             }
             
             statement.close();

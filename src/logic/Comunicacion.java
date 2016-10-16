@@ -66,16 +66,20 @@ public class Comunicacion implements Runnable {
                             enviar.println(empleado.getCedula());
                             enviar.println(empleado.getFondo());
                             this.jtaConsola.append("El usuario "+ empleado.getNumeroCuenta()+" ha ingresado al sistema\n");
+                        }else{
+                            this.jtaConsola.append("Error al iniciar sesión\n");
+                            enviar.println("false");
                         }
-                        
-                        this.jtaConsola.append("Error al iniciar sesión\n");
                         break;
 
                     case "consulta":
                         this.numCuenta = recibir.readLine();
                         this.contrasennia = recibir.readLine();
+                        System.out.println("numCuenta: "+numCuenta);
+                        System.out.println("contraseña: "+contrasennia);
                         this.transaccion = new Transaccion(this.tipo, this.numCuenta, this.contrasennia);
                         this.resultado = String.valueOf(pb.consulta(transaccion));
+                        System.out.println("resultado: "+resultado);
                         enviar.println(this.resultado);
                         this.jtaConsola.append("El usuario "+ numCuenta+" ha consultado sus fondos\n");
                         break;

@@ -77,15 +77,16 @@ public class ProcesoData{
         float monto = 0;
 
         if (empleado.getNombre() != null) {
-            Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery("SELECT fondo FROM Empleado WHERE numeroCuenta='" + cuenta + "' AND contrasenia='" + contrasennnia + "'");
-
-            while (resultSet.next()) {
-                monto = (float) resultSet.getFloat("fondo");
-            }
-
-            statement.close();
-            resultSet.close();
+//            Statement statement = connection.createStatement();
+//            ResultSet resultSet = statement.executeQuery("SELECT fondo FROM Empleado WHERE numeroCuenta='" + cuenta + "' AND contrasenia='" + contrasennnia + "'");
+//
+//            while (resultSet.next()) {
+//                monto = (float) resultSet.getFloat("fondo");
+//            }
+//
+//            statement.close();
+//            resultSet.close();
+            return empleado.getFondo();
         }
 
         return monto;
@@ -93,7 +94,8 @@ public class ProcesoData{
 
     public Empleado getEmpleado(String cuenta, String contrasennia) throws SQLException {
         Empleado empleado = new Empleado();
-
+        
+        System.out.println("get empleado: "+cuenta+"   -   "+contrasennia);
         Statement statement = connection.createStatement();
         ResultSet resultSet = statement.executeQuery("SELECT numeroCuenta, nombre, apellidos, cedula, fondo FROM Empleado WHERE numeroCuenta='" + cuenta + "' AND contrasenia='" + contrasennia + "'");
 
@@ -103,8 +105,11 @@ public class ProcesoData{
             empleado.setApellidos(resultSet.getString("apellidos"));
             empleado.setCedula(resultSet.getString("cedula"));
             empleado.setFondo((float) resultSet.getFloat("fondo"));
+            System.out.println(empleado);
         }
-
+        
+        
+        
         statement.close();
         resultSet.close();
         return empleado;

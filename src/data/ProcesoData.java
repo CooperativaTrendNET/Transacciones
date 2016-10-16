@@ -120,7 +120,6 @@ public class ProcesoData {
 
         if (!cuentaAux.equals("")) {
             flag = true;
-            System.out.println("cuentaAux: " + cuentaAux);
         }
 
         statement.close();

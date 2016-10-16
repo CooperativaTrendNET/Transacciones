@@ -41,8 +41,6 @@ public class ProcesoBusiness {
                 flag = this.procesoData.credito_debito(transaccion);
             } else if (transaccion.getTipo().equalsIgnoreCase("retiro")) {
                 flag = this.procesoData.credito_debito(transaccion);
-            } else {
-                System.err.println("No es un deposito ni retiro");
             }
         } catch (SQLException ex) {
             Logger.getLogger(ProcesoBusiness.class.getName()).log(Level.SEVERE, null, ex);
@@ -57,8 +55,6 @@ public class ProcesoBusiness {
         try {
             if (transaccion.getTipo().equalsIgnoreCase("transferencia")) {
                 flag = this.procesoData.transferencia(transaccion);
-            } else {
-                System.err.println("No es una trasferencia");
             }
         } catch (SQLException ex) {
             Logger.getLogger(ProcesoBusiness.class.getName()).log(Level.SEVERE, null, ex);

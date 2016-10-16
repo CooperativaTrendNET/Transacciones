@@ -3,6 +3,7 @@ package logic;
 import business.ProcesoBusiness;
 import domain.Empleado;
 import domain.Transaccion;
+import java.awt.Color;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -42,6 +43,7 @@ public class Comunicacion implements Runnable {
 
         try {
             ServerSocket serverSocket = new ServerSocket(this.puerto);
+            this.jtaConsola.setForeground(Color.BLACK);
             this.jtaConsola.append("Se ha iniciado el Servidor\n");
             do {
                 Socket socket = serverSocket.accept();
@@ -65,8 +67,10 @@ public class Comunicacion implements Runnable {
                             enviar.println(empleado.getApellidos());
                             enviar.println(empleado.getCedula());
                             enviar.println(empleado.getFondo());
+                            this.jtaConsola.setForeground(Color.BLACK);
                             this.jtaConsola.append("El usuario "+ empleado.getNumeroCuenta()+" ha ingresado al sistema\n");
                         }else{
+                            this.jtaConsola.setForeground(Color.BLACK);
                             this.jtaConsola.append("Error al iniciar sesión\n");
                             enviar.println("false");
                         }
@@ -81,6 +85,7 @@ public class Comunicacion implements Runnable {
                         this.resultado = String.valueOf(pb.consulta(transaccion));
                         System.out.println("resultado: "+resultado);
                         enviar.println(this.resultado);
+                        this.jtaConsola.setForeground(Color.BLACK);
                         this.jtaConsola.append("El usuario "+ numCuenta+" ha consultado sus fondos\n");
                         break;
 
@@ -93,6 +98,7 @@ public class Comunicacion implements Runnable {
                         this.resultado = String.valueOf(pb.credito_debito(this.transaccion));
                         enviar.println(this.resultado);
                         if (Boolean.parseBoolean(this.resultado)) {
+                            this.jtaConsola.setForeground(Color.GREEN);
                             this.jtaConsola.append("El usuario "+ numCuenta+" ha depositado " + this.monto +" colones a su respectiva cuenta\n");
                         }
                         
@@ -106,6 +112,7 @@ public class Comunicacion implements Runnable {
                         this.resultado = String.valueOf(pb.credito_debito(this.transaccion));
                         enviar.println(this.resultado);
                         if (Boolean.parseBoolean(this.resultado)) {
+                            this.jtaConsola.setForeground(Color.RED);
                             this.jtaConsola.append("El usuario "+ numCuenta+" ha retirado " + this.monto +" colones de su respectiva cuenta\n");
                         }
 
@@ -122,8 +129,10 @@ public class Comunicacion implements Runnable {
                         this.resultado = String.valueOf(pb.transferencia(this.transaccion));
                         enviar.println(this.resultado);
                         if (Boolean.parseBoolean(this.resultado)) {
-                            this.jtaConsola.append("El usuario "+ numCuenta+" ha transferido " + this.monto +
-                                    " colones a la cuenta : " + this.cuentaDestino+"\n");
+                            this.jtaConsola.setForeground(Color.RED);
+                            this.jtaConsola.append("Se han retiro "+ this.monto +" colones de la cuenta "+ numCuenta + " para ser transferidos a la cuenta " +this.cuentaDestino+"\n");
+                            this.jtaConsola.setForeground(Color.GREEN);
+                            this.jtaConsola.append("Se han transferido "+ this.monto + " colones a la cuenta " + this.cuentaDestino+ " provenientes de la cuenta " + numCuenta+"\n");
                         }
 
                         break;

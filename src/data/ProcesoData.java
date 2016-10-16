@@ -34,7 +34,8 @@ public class ProcesoData {
 
         Empleado empleado = getEmpleado(transaccion.getCuentaOrigen(), transaccion.getPass());
         if (empleado.getNombre() != null) {
-            if (empleado.getFondo() >= transaccion.getMonto() && transaccion.getTipo().equals("retiro")) {
+            if ((empleado.getFondo() >= transaccion.getMonto() && transaccion.getTipo().equals("retiro")) ||
+                    transaccion.getTipo().equals("deposito")) {
                 CallableStatement cs = this.connection.prepareCall("{call sp_Empleado_Transaccion(?, ?, ?, ?, ?)}");
                 cs.setString(1, transaccion.getTipo());
                 cs.setFloat(2, transaccion.getMonto());
@@ -44,17 +45,7 @@ public class ProcesoData {
                 cs.execute();
                 cs.close();
                 flag = true;
-            } else {
-                CallableStatement cs = this.connection.prepareCall("{call sp_Empleado_Transaccion(?, ?, ?, ?, ?)}");
-                cs.setString(1, transaccion.getTipo());
-                cs.setFloat(2, transaccion.getMonto());
-                cs.setString(3, transaccion.getCuentaOrigen());
-                cs.setString(4, null);
-                cs.setString(5, transaccion.getDescripcion());
-                cs.execute();
-                cs.close();
-                flag = true;
-            }
+            } 
         }
 
         this.connection.close();

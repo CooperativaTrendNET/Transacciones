@@ -116,7 +116,7 @@ public class Comunicacion implements Runnable {
                         this.contrasennia = recibir.readLine();
                         this.monto = Float.parseFloat(recibir.readLine());
                         this.cuentaDestino = recibir.readLine();
-                        String descripcion = "";
+                        String descripcion = recibir.readLine();
                         this.transaccion = new Transaccion(this.tipo, this.monto, this.numCuenta, this.cuentaDestino, this.contrasennia);
                         this.transaccion.setDescripcion(descripcion);
                         this.resultado = String.valueOf(pb.transferencia(this.transaccion));
